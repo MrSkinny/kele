@@ -6,8 +6,12 @@ class Kele
 
   def initialize(username,password)
     @api_url = 'https://www.bloc.io/api/v1'
-    @session = self.class.post(@api_url + '/sessions', body: { email: username, password: password })
-    @auth_token = @session["auth_token"]
+    @auth_token = self.class.post(@api_url + '/sessions', body: { email: username, password: password })["auth_token"]
     raise StandardError.new('Invalid credentials') unless @auth_token
+  end
+
+  def get_me
+    response = self.class.get(@api_url + '/users/me', headers: { "authorization" => @auth_token })
+    JSON.parse(response.body)
   end
 end
