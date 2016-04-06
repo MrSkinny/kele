@@ -10,5 +10,6 @@ class Kele
     @api_url = 'https://www.bloc.io/api/v1'
     @session = self.class.post(@api_url + '/sessions', body: { email: @username, password: @password })
     @auth_token = @session["auth_token"]
+    raise StandardError.new('Invalid credentials') unless @auth_token
   end
 end
